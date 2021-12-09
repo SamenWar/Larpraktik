@@ -3,14 +3,15 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\DeskStoreRequest;
+use App\Http\Requests\DeskListRequest;
+use App\Http\Resources\DeskListReasource;
 use App\Http\Resources\DeskResourse;
 use App\Models\Desk;
-use App\Models\Task;
+use App\Models\DeskList;
 use http\Env\Response;
 use Illuminate\Http\Request;
 
-class DeskController extends Controller
+class DeskListContoller extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,9 +20,8 @@ class DeskController extends Controller
      */
     public function index()
     {
-        return  DeskResourse::collection(Desk::all());
-
-    }
+        return  DeskListReasource::collection(DeskList::all());
+            }
 
     /**
      * Store a newly created resource in storage.
@@ -29,10 +29,10 @@ class DeskController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(DeskStoreRequest $request)
+    public function store(DeskListRequest $request)
     {
-        $created_desk = Desk::create($request->validated());
-        return new DeskResourse($created_desk);
+        $created_desklist = DeskList::create($request->validated());
+        return new DeskListReasource($created_desklist);
     }
 
     /**
@@ -43,7 +43,7 @@ class DeskController extends Controller
      */
     public function show($id)
     {
-        return new DeskResourse(Desk::with('lists')->findOrFail($id));
+        return new DeskListReasource(DeskList::with('Cards')->findOrFail($id));
     }
 
     /**
@@ -53,11 +53,11 @@ class DeskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(DeskStoreRequest $request, Desk $desk)
+    public function update(DeskListRequest $request, DeskList $desklist)
     {
-        $desk->update($request->validated());
+        $desklist->update($request->validated());
 
-        return new DeskResourse($desk);
+        return new DeskListReasource($desklist);
     }
 
     /**
@@ -66,11 +66,8 @@ class DeskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Desk $desk)
+    public function destroy(DeskList $desklist)
     {
-        $desk->delete();
-
         return response(null, Response::HTTP_NO_CONTENT);
-
     }
 }
