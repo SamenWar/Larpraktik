@@ -68,6 +68,6 @@ class DeskListContoller extends Controller
      */
     public function destroy(DeskList $desklist)
     {
-        return response(null, Response::HTTP_NO_CONTENT);
+        return response(null, );
     }
 }
