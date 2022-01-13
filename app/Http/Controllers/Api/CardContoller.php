@@ -69,6 +69,6 @@ class CardContoller extends Controller
     {
         $card->delete();
 
-        return response(null);
+        return response()->json(['message' => 'task was successful']);
     }
 }

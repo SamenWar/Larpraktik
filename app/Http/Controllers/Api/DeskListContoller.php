@@ -68,6 +68,6 @@ class DeskListContoller extends Controller
      */
     public function destroy(DeskList $desklist)
     {
-        return response(null, );
+        return response()->json(['message' => 'task was successful']);
     }
 }

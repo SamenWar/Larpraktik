@@ -70,7 +70,7 @@ class DeskController extends Controller
     {
         $desk->delete();
 
-        return response(null);
+        return response()->json(['message' => 'task was successful']);
 
     }
 }
