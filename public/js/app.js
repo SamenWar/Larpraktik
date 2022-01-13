@@ -2175,7 +2175,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2185,16 +2184,39 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    var _this = this;
+    this.GetAllDesks();
+  },
+  methods: {
+    GetAllDesks: function GetAllDesks() {
+      var _this = this;
 
-    axios.get('api/desks').then(function (response) {
-      _this.desks = response.data.data;
-    })["catch"](function (error) {
-      console.log(error);
-      _this.errored = true;
-    })["finally"](function () {
-      return _this.loading = false;
-    });
+      axios.get('api/desks').then(function (response) {
+        _this.desks = response.data.data;
+      })["catch"](function (error) {
+        console.log(error);
+        _this.errored = true;
+      })["finally"](function () {
+        return _this.loading = false;
+      });
+    },
+    deleteDesk: function deleteDesk(id) {
+      var _this2 = this;
+
+      if (confirm('Are you sure?')) {
+        axios.post('/api/desks/' + id, {
+          _method: 'DELETE'
+        }).then(function (response) {
+          _this2.desks = [];
+
+          _this2.GetAllDesks();
+        })["catch"](function (error) {
+          console.log(error);
+          _this2.errored = true;
+        })["finally"](function () {
+          _this2.loading = false;
+        });
+      }
+    }
   }
 });
 
@@ -20363,13 +20385,8 @@ var render = function () {
         _vm._l(_vm.desks, function (desk) {
           return _c(
             "div",
-            { staticClass: "card mt-3", staticStyle: { width: "18rem" } },
+            { staticClass: "card mt-4", staticStyle: { width: "18rem" } },
             [
-              _c("img", {
-                staticClass: "card-img-top",
-                attrs: { src: "#", alt: "..." },
-              }),
-              _vm._v(" "),
               _c(
                 "div",
                 { staticClass: "card-body" },
@@ -20389,16 +20406,18 @@ var render = function () {
                     ]
                   ),
                   _vm._v(" "),
-                  _c("p", { staticClass: "card-text" }, [
-                    _vm._v(
-                      "Some quick example text to build on the card title and make up the bulk of the card's content."
-                    ),
-                  ]),
-                  _vm._v(" "),
                   _c(
-                    "a",
-                    { staticClass: "btn btn-primary", attrs: { href: "#" } },
-                    [_vm._v("Go somewhere")]
+                    "button",
+                    {
+                      staticClass: "btn btn-danger mt-3",
+                      attrs: { type: "button" },
+                      on: {
+                        click: function ($event) {
+                          return _vm.deleteDesk(desk.id)
+                        },
+                      },
+                    },
+                    [_vm._v("Delete")]
                   ),
                 ],
                 1
@@ -20532,9 +20551,11 @@ var render = function () {
         )
       : _vm._e(),
     _vm._v(" "),
-    _c("button", { staticClass: "btn btn-danger", attrs: { type: "button" } }, [
-      _vm._v("Delete"),
-    ]),
+    _c(
+      "button",
+      { staticClass: "btn btn-danger mt-3", attrs: { type: "button" } },
+      [_vm._v("Delete")]
+    ),
   ])
 }
 var staticRenderFns = []

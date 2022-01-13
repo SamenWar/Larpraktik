@@ -18,7 +18,7 @@
     <div class="spinner-border text-success" v-if="loading" role="status">
         <span class="visually-hidden">Loading...</span>
     </div>
-    <button type="button" class="btn btn-danger">Delete</button>
+    <button type="button" class="btn btn-danger mt-3">Delete</button>
 </div>
 </template>
 

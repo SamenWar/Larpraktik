@@ -3,6 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CardRequest;
+use App\Http\Resources\CardReasource;
+use App\Http\Resources\DeskResourse;
+use App\Models\Card;
+use App\Models\Desk;
 use Illuminate\Http\Request;
 
 class CardContoller extends Controller
@@ -14,7 +19,7 @@ class CardContoller extends Controller
      */
     public function index()
     {
-        //
+        return CardReasource::collection(Card::all());
     }
 
     /**
@@ -23,9 +28,10 @@ class CardContoller extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CardRequest $request)
     {
-        //
+        $created_card  = Card::create($request->validated());
+        return new DeskResourse($created_card);
     }
 
     /**
@@ -36,7 +42,7 @@ class CardContoller extends Controller
      */
     public function show($id)
     {
-        //
+        return new CardReasource(Card::with('tasks')->findOrFail($id));
     }
 
     /**
@@ -46,9 +52,11 @@ class CardContoller extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Card $card)
     {
-        //
+        $card->update($request->validated());
+
+        return new DeskResourse($card);
     }
 
     /**
@@ -57,8 +65,10 @@ class CardContoller extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Card $card)
     {
-        //
+        $card->delete();
+
+        return response(null);
     }
 }

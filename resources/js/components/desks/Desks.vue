@@ -2,15 +2,14 @@
     <div class="container">
         <h1>desks</h1>
         <div class="row">
-        <div class="col-lg-4">
-            <div class="card mt-3" style="width: 18rem;" v-for="desk in desks">
-                <img src='#' class="card-img-top" alt="...">
+            <div class="col-lg-4">
+            <div class="card mt-4" style="width: 18rem;" v-for="desk in desks">
                 <div class="card-body">
                     <router-link class="card-body" :to="{name:'ShowDesk', params:{deskId:desk.id}}">
                         <h4>{{desk.id}} {{desk.name}}</h4>
                     </router-link>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
+
+                    <button type="button" @click="deleteDesk(desk.id)" class="btn btn-danger mt-3">Delete</button>
                 </div>
             </div>
         </div>
@@ -34,14 +33,40 @@ export default {
         }
     },
     mounted() {
-        axios.get('api/desks').then(response => {
-            this.desks = response.data.data
-        })
-            .catch(error => {
-                console.log(error)
-                this.errored = true
-            }).finally(()=>this.loading = false)
+        this.GetAllDesks()
+    },
+    methods:{
+        GetAllDesks(){
+            axios.get('api/desks').then(response => {
+                this.desks = response.data.data
+            })
+                .catch(error => {
+                    console.log(error)
+                    this.errored = true
+                }).finally(()=>this.loading = false)
+
+        },
+
+        deleteDesk(id) {
+            if (confirm('Are you sure?')) {
+                axios.post('/api/desks/'+ id, {
+                     _method: 'DELETE'
+                }).then(response => {
+                    this.desks = []
+                    this.GetAllDesks()
+                })
+                    .catch(error => {
+                        console.log(error)
+                        this.errored = true
+                    }).finally(()=> {
+                        this.loading = false})
+
+            }
+
+        }
+
     }
+
 }
 </script>
 

@@ -70,7 +70,7 @@ class DeskController extends Controller
     {
         $desk->delete();
 
-        return response(null, Response::HTTP_NO_CONTENT);
+        return response(null);
 
     }
 }
