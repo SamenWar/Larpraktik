@@ -1,25 +1,46 @@
-<template>
-<div>
-<!--    :class="{'is-invalid': $v.name.$error}"-->
-    <h2>show</h2>
-    <input type="text" @blur="SaveName" v-on:keyup.enter="SaveName" v-model="name" class="form-control" :class="{'is-invalid': $v.name.$error}">
-    <div class="alert alert-danger" v-if="errored" role="alert">
-        Ошибка! Ошибка!
-    </div>
+        <template>
+            <div>
+            <!-- change name of desk -->    
+                <input type="text" @blur="SaveName" v-on:keyup.enter="SaveName" v-model="name" class="form-control" :class="{'is-invalid': $v.name.$error}">
+        <div class="alert alert-danger" v-if="errored" role="alert">
+            Ошибка! Ошибка!
+        </div>
+            <!-- errors block -->
+        <div class="invalid-feedback" v-if="!$v.name.required">
+            Ошибка! Обязательное поле!
+        </div>
 
-    <div class="invalid-feedback" v-if="!$v.name.required">
-        Ошибка! Обязательное поле!
-    </div>
+        <div class="invalid-feedback" v-if="!$v.name.maxLength">
+            Ошибка! Максимальное количество символов:{{$v.name.$params.maxLength.max}}.
+        </div>
+        <div class="spinner-border text-success" v-if="loading" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
 
-    <div class="invalid-feedback" v-if="!$v.name.maxLength">
-        Ошибка! Максимальное количество символов:{{$v.name.$params.maxLength.max}}.
+        <!--add new list-->
+        <div>
+            <input type="text" @blur="SaveName" v-on:keyup.enter="SaveName" v-model="desk_list_name" class="form-control" :class="{'is-invalid': $v.desk_list_name.$error}">
+        </div>
+        
+        <div class="invalid-feedback" v-if="!$v.desk_list_name.maxLength">
+            Ошибка! Максимальное количество символов:{{$v.desk_list_name.$params.maxLength.max}}.
+        </div>
 
+        <div class="spinner-border text-success" v-if="loading" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+
+        <!-- cards list -->
+        <div class="row">
+            <div class="col-lg-4" v-for="desk_list in desk_lists">
+                <div class="card mt-4" style="width: 18rem;" >
+                    <a href="#" class="card-body">{{desk_list.name}}</a>
+                </div>
+            </div>
+            
+          </div>
+        </div>
     </div>
-    <div class="spinner-border text-success" v-if="loading" role="status">
-        <span class="visually-hidden">Loading...</span>
-    </div>
-    <button type="button" class="btn btn-danger mt-3">Delete</button>
-</div>
 </template>
 
 <script>
@@ -27,19 +48,43 @@ import { validationMixin } from 'vuelidate'
 import Vuelidate from 'vuelidate'
 import { required, maxLength } from 'vuelidate/lib/validators'
 // Vue.use(Vuelidate)
-export default {
+    export default {
             props: [
                 'deskId'
             ],
         data(){
             return{
-
+               
                 name:null,
                 errored: false,
-                loading: true
+                loading: true,
+                desk_lists: true,
+                desk_list_name:null
             }
         },
         methods:{
+                getDeskLists(){
+                axios.get('/api/lists', {
+                     params:{
+                      desk_id:this.deskId
+                     }
+                }).then(response => {
+
+                    this.desk_lists = response.data.data
+                    console.log(this.desk_lists)
+
+                    
+
+                })
+                    .catch(error => {
+                        console.log(error)
+                        this.errored = true
+                    }).finally(()=> {
+                        this.loading = false})
+
+            
+
+                },
                 SaveName() {
                    this.$v.$touch()
                    if(this.$v.$anyError){
@@ -65,6 +110,12 @@ export default {
                     {
                         maxLength: maxLength(255),
                         required
+                    },
+                desk_list_name:
+                
+                    {
+                        maxLength: maxLength(255),
+                        required
                     }
 
             }
@@ -76,8 +127,10 @@ export default {
                      console.log(error)
                      this.errored = true
                  }).finally(()=>this.loading = false)
+                 
+         this.getDeskLists()
          }
 
-    }
-</script>
 
+    }
+    </script>
