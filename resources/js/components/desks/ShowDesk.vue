@@ -100,21 +100,27 @@ import { required, maxLength } from 'vuelidate/lib/validators'
 
             addDeskLists(){
                     this.$v.$touch()
-                    if(this.$v.anyError){
+                    if(this.$v.$anyError){
                         return;
                     }
                 axios.post('/api/lists', {
-                    name: this.desk_list_name
+                    name: this.name
                 }).then(response => {
-                    this.desk_list_namee = ''
+                    this.name = ''
+                    this.desk_lists=[]
+                    this.getDeskLists()
 
 
                 })
                     .catch(error => {
                         console.log(error)
+                        if(error.response.data.errors.name){
+                            this.errors=[]
+                            this.errors.push(error.response.data.errors.name[0])
+                        }
                         this.errored = true
                     }).finally(()=> {
-                    this.loading = false})
+                        this.loading = false})
 
 
 

@@ -2325,16 +2325,26 @@ __webpack_require__.r(__webpack_exports__);
 
       this.$v.$touch();
 
-      if (this.$v.anyError) {
+      if (this.$v.$anyError) {
         return;
       }
 
       axios.post('/api/lists', {
-        name: this.desk_list_name
+        name: this.name
       }).then(function (response) {
-        _this2.desk_list_namee = '';
+        _this2.name = '';
+        _this2.desk_lists = [];
+
+        _this2.getDeskLists();
       })["catch"](function (error) {
         console.log(error);
+
+        if (error.response.data.errors.name) {
+          _this2.errors = [];
+
+          _this2.errors.push(error.response.data.errors.name[0]);
+        }
+
         _this2.errored = true;
       })["finally"](function () {
         _this2.loading = false;
