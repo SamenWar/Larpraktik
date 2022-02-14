@@ -18,9 +18,13 @@ class DeskListContoller extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return  DeskListReasource::collection(DeskList::all());
+        return  DeskListReasource::collection(
+            DeskList::orderBy('created_at', 'desc')
+                ->where('desk_id', $request->desk_id)
+        ->get()
+        );
             }
 
     /**
