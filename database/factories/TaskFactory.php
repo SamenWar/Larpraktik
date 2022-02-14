@@ -15,7 +15,7 @@ class TaskFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
-            'card_id'=>$this->faker->numberBetween(1,100),
+            'card_id'=>$this->faker->numberBetween(1,1000),
             'daskription'=>$this->faker->text()
         ];
     }
