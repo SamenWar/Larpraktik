@@ -98,11 +98,12 @@ import { required, maxLength } from 'vuelidate/lib/validators'
             //___________________________________________________________
 
 
+
             addDeskLists(){
-                    this.$v.$touch()
-                    if(this.$v.$anyError){
-                        return;
-                    }
+                this.$v.$touch()
+                if(this.$v.$anyError){
+                    return;
+                }
                 axios.post('/api/lists', {
                     name: this.name
                 }).then(response => {
@@ -118,24 +119,21 @@ import { required, maxLength } from 'vuelidate/lib/validators'
                             this.errors=[]
                             this.errors.push(error.response.data.errors.name[0])
                         }
-                        this.errored = true
+                        this.err
                     }).finally(()=> {
-                        this.loading = false})
+                    this.loading = false})
 
 
 
             },
             //-----------------------------------------------
                 SaveName() {
-                   this.$v.$touch()
-                   if(this.$v.$anyError){
-                       return;
-                   }
-
                     axios.post('/api/desks/' + this.deskId, {
-                        name:this.desk_list_name,
+                        _method:'PUT',
+                        name:this.name,
                     })
                         .then(response => {
+                            this.name = response.data.data.name
 
                     })
                         .catch(error => {

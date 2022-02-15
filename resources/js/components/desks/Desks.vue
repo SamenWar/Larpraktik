@@ -1,9 +1,20 @@
 <template>
     <div class="container">
-        <h1>desks</h1>
-        <div class="row">
-            <div class="col-lg-4">
-            <div class="card mt-4" style="width: 18rem;" v-for="desk in desks">
+        <h1>Desks</h1>
+        <form @submit.prevent="addDesks">
+            <div class="form-group">
+                <input type="text" v-model="name" class="form-control" placeholder="Enter name of new desk" :class="{'is-invalid': $v.name.$error}">
+            </div>
+            <button type="button" class="btn btn-primary mt-1">Add</button>
+        </form>
+
+        <!-- errors block -->
+        <div v-if="!$v.name.required">
+            Ошибка! Обязательное поле!
+        </div>
+            <div class="row">
+            <div class="col-lg-4" v-for="desk in desks">
+            <div class="card mt-4" style="width: 18rem;" >
                 <div class="card-body">
                     <router-link class="card-body" :to="{name:'ShowDesk', params:{deskId:desk.id}}">
                         <h4>{{desk.id}} {{desk.name}}</h4>
@@ -24,18 +35,36 @@
 </template>
 
 <script>
+import {required, maxLength} from 'vuelidate/lib/validators'
 export default {
     data(){
         return{
             desks:[],
             errored: false,
-            loading: true
+            loading: true,
+            name:null
         }
     },
     mounted() {
         this.GetAllDesks()
     },
     methods:{
+        addDesks(){
+            this.$v.$touch()
+            if(this.$v.$anyError) {
+                return;
+            }
+
+            axios.get('api/desks').then(response => {
+                this.desks = response.data.data
+            })
+                .catch(error => {
+                    console.log(error)
+                    this.errored = true
+                }).finally(()=>this.loading = false)
+
+        },
+
         GetAllDesks(){
             axios.get('api/desks').then(response => {
                 this.desks = response.data.data
@@ -63,6 +92,16 @@ export default {
 
             }
 
+
+        },
+        validations () {
+            return {
+                name:
+                    {
+                        maxLength: maxLength(255),
+                        required
+                    },
+            }
         }
 
     }
