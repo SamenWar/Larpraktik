@@ -2,19 +2,18 @@
 require('./bootstrap');
 import Vue from "vue";
 import VueRouter from "vue-router"
-import Vuelidate from "vuelidate";
+import {Vuelidate} from "vuelidate";
 
+    Vue.use(Vuelidate)
     //Vue.component('app', require('./components/App').default);
 
     Vue.use(VueRouter)
-    Vue.use(Vuelidate)
 
     import Home from './components/Home'
     import App from "./components/App"
     import About from './components/About'
     import Desks from "./components/desks/Desks";
     import ShowDesk from "./components/desks/ShowDesk";
-import {Vuelidate} from "vuelidate";
 
     const router = new VueRouter({
     mode: 'history',
@@ -49,3 +48,6 @@ const app = new Vue({
     router
 
 })
+// new Vue({
+//     render: function (h) { return h(App) }
+// }).$mount('#app')
