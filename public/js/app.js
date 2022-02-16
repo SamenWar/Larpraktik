@@ -2327,6 +2327,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
  // Vue.use(Vuelidate)
@@ -2347,6 +2361,8 @@ __webpack_require__.r(__webpack_exports__);
     //-----------------------------
     //desk-list
     //-----------------------------
+    deleteDeskList: function deleteDeskList() {},
+    updateDeskList: function updateDeskList() {},
     getDeskLists: function getDeskLists() {
       var _this = this;
 
@@ -2462,7 +2478,7 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 
-vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vuelidate__WEBPACK_IMPORTED_MODULE_1__.Vuelidate); //Vue.component('app', require('./components/App').default);
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vuelidate__WEBPACK_IMPORTED_MODULE_1__["default"]); //Vue.component('app', require('./components/App').default);
 
 vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]);
 
@@ -20677,22 +20693,22 @@ var render = function () {
       ? _c(
           "div",
           { staticClass: "alert alert-danger", attrs: { role: "alert" } },
-          [_vm._v("\n    Ошибка! Ошибка!\n")]
+          [_vm._v("\n            Ошибка! Ошибка!\n        ")]
         )
       : _vm._e(),
     _vm._v(" "),
     !_vm.$v.name.required
       ? _c("div", { staticClass: "invalid-feedback" }, [
-          _vm._v("\n    Ошибка! Обязательное поле!\n"),
+          _vm._v("\n            Ошибка! Обязательное поле!\n        "),
         ])
       : _vm._e(),
     _vm._v(" "),
     !_vm.$v.name.maxLength
       ? _c("div", { staticClass: "invalid-feedback" }, [
           _vm._v(
-            "\n    Ошибка! Максимальное количество символов:" +
+            "\n            Ошибка! Максимальное количество символов:" +
               _vm._s(_vm.$v.name.$params.maxLength.max) +
-              ".\n"
+              ".\n        "
           ),
         ])
       : _vm._e(),
@@ -20750,9 +20766,9 @@ var render = function () {
     !_vm.$v.desk_list_name.maxLength
       ? _c("div", { staticClass: "invalid-feedback" }, [
           _vm._v(
-            "\n    Ошибка! Максимальное количество символов:" +
+            "\n            Ошибка! Максимальное количество символов:" +
               _vm._s(_vm.$v.desk_list_name.$params.maxLength.max) +
-              ".\n"
+              ".\n        "
           ),
         ])
       : _vm._e(),
@@ -20781,47 +20797,108 @@ var render = function () {
             "div",
             { staticClass: "card mt-4 ", staticStyle: { width: "18rem" } },
             [
-              _c(
-                "h4",
-                {
-                  staticClass: "card-title",
-                  staticStyle: { cursor: "pointer" },
-                },
-                [_vm._v(_vm._s(desk_list.name))]
-              ),
+              _c("div", { staticClass: "card-body" }, [
+                (_vm.desk_list_input_id = desk_list.id)
+                  ? _c(
+                      "form",
+                      {
+                        on: {
+                          submit: function ($event) {
+                            $event.preventDefault()
+                            return _vm.updateDeskList(
+                              desk_list.id,
+                              desk_list.name
+                            )
+                          },
+                        },
+                      },
+                      [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: desk_list.name,
+                              expression: "desk_list.name",
+                            },
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            placeholder: "input name of cord",
+                          },
+                          domProps: { value: desk_list.name },
+                          on: {
+                            input: function ($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(desk_list, "name", $event.target.value)
+                            },
+                          },
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "close mt-3",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function ($event) {
+                                _vm.desk_list_input_id = null
+                              },
+                            },
+                          },
+                          [_c("span", { attrs: { "aria-hidden": "true" } })]
+                        ),
+                      ]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm._m(0, true),
+              ]),
             ]
           ),
           _vm._v(" "),
-          _c("form", [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: desk_list.name,
-                  expression: "desk_list.name",
-                },
-              ],
-              staticClass: "form-control",
-              attrs: { type: "text", placeholder: "input name of cord" },
-              domProps: { value: desk_list.name },
-              on: {
-                input: function ($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(desk_list, "name", $event.target.value)
-                },
-              },
-            }),
-          ]),
+          _c("form"),
         ])
       }),
       0
     ),
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass:
+          "card mt-3 d-flex justify-content-between align-items-center",
+      },
+      [
+        _c("div", { staticClass: "card-body" }, [
+          _c("h4", {
+            staticClass:
+              "card-title d-flex justify-content-between align-items-center",
+          }),
+          _vm._v(" "),
+          _c(
+            "button",
+            { staticClass: "btn btn-danger mt-3", attrs: { type: "button" } },
+            [
+              _vm._v(
+                "\n                                    delete\n                                "
+              ),
+            ]
+          ),
+        ]),
+      ]
+    )
+  },
+]
 render._withStripped = true
 
 

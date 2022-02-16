@@ -1,5 +1,4 @@
-        <template>
-            <div>
+        <template><div>
             <!-- change name of desk -->
                 <input type="text" @blur="SaveName" v-on:keyup.enter="SaveName" v-model="name" class="form-control" :class="{'is-invalid': $v.name.$error}">
         <div class="alert alert-danger" v-if="errored" role="alert">
@@ -34,10 +33,25 @@
         <div class="row">
             <div class="col-lg-4" v-for="desk_list in desk_lists">
                 <div class="card mt-4 " style="width: 18rem;" >
-                    <h4 style="cursor: pointer " class="card-title">{{desk_list.name}}</h4>
+                    <div class="card-body">
+                        <form @submit.prevent="updateDeskList(desk_list.id, desk_list.name)" v-if="desk_list_input_id=desk_list.id">
+                            <input type="text" v-model="desk_list.name" class="form-control" placeholder="input name of cord">
+                                <button type="button" @click="desk_list_input_id=null" class="close mt-3">
+                                    <span aria-hidden="true"></span>
+                                </button>
+                        </form>
+                        <div class="card mt-3 d-flex justify-content-between align-items-center" style="">
+                            <div class="card-body">
+                                <h4 class="card-title d-flex justify-content-between align-items-center"></h4>
+                                <button type="button" class="btn btn-danger mt-3">
+                                    delete
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
                 <form>
-                    <input type="text" v-model="desk_list.name" class="form-control" placeholder="input name of cord">
                 </form>
             </div>
 
@@ -70,7 +84,14 @@ import { required, maxLength } from 'vuelidate/lib/validators'
                 //-----------------------------
                 //desk-list
                 //-----------------------------
+                deleteDeskList(){
 
+                    },
+                updateDeskList(){
+
+
+
+                    },
                 getDeskLists(){
                 axios.get('/api/lists', {
                      params:{
