@@ -14,6 +14,7 @@ import Vuelidate from "vuelidate";
     import About from './components/About'
     import Desks from "./components/desks/Desks";
     import ShowDesk from "./components/desks/ShowDesk";
+    import showCard from "./components/desks/showCard"
 
     const router = new VueRouter({
     mode: 'history',
@@ -36,6 +37,11 @@ import Vuelidate from "vuelidate";
             path: '/show/:deskId',
             name: 'ShowDesk',
             component: ShowDesk,
+            props: true
+        }, {
+            path: '/show/:cardId',
+            name: 'ShowCard',
+            component: showCard,
             props: true
         }
 

@@ -2341,6 +2341,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 
  // Vue.use(Vuelidate)
@@ -2358,73 +2363,111 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    //------------------
+    //card
+    //___________________
+    deleteCard: function deleteCard(id) {
+      var _this = this;
+
+      if (confirm('Are you sure?')) {
+        axios.post('/api/cards/' + id, {
+          _method: 'DELETE'
+        }).then(function (response) {})["catch"](function (error) {
+          console.log(error);
+          _this.errored = true;
+        })["finally"](function () {
+          _this.loading = false;
+        });
+      }
+    },
     //-----------------------------
     //desk-list
     //-----------------------------
-    deleteDeskList: function deleteDeskList() {},
-    updateDeskList: function updateDeskList() {},
+    deleteDeskList: function deleteDeskList(id) {
+      var _this2 = this;
+
+      if (confirm('Are you sure?')) {
+        axios.post('/api/lists/' + id, {
+          _method: 'DELETE'
+        }).then(function (response) {})["catch"](function (error) {
+          console.log(error);
+          _this2.errored = true;
+        })["finally"](function () {
+          _this2.loading = false;
+        });
+      }
+    },
+    updateDeskList: function updateDeskList(id, name) {
+      var _this3 = this;
+
+      axios.post('/api/lists/' + id, {
+        _method: 'PUT',
+        name: name
+      }).then(function (response) {
+        _this3.desk_list_input_id = null;
+      })["catch"](function (error) {
+        console.log(error);
+        _this3.errored = true;
+      })["finally"](function () {
+        _this3.loading = false;
+      });
+    },
     getDeskLists: function getDeskLists() {
-      var _this = this;
+      var _this4 = this;
 
       axios.get('/api/lists', {
         params: {
           desk_id: this.deskId
         }
       }).then(function (response) {
-        _this.desk_lists = response.data.data;
-        console.log(_this.desk_lists);
+        _this4.desk_lists = response.data.data;
+        console.log(_this4.desk_lists);
       })["catch"](function (error) {
         console.log(error);
-        _this.errored = true;
+        _this4.errored = true;
       })["finally"](function () {
-        _this.loading = false;
+        _this4.loading = false;
       });
     },
     //___________________________________________________________
     addDeskLists: function addDeskLists() {
-      var _this2 = this;
-
-      this.$v.$touch();
-
-      if (this.$v.$anyError) {
-        return;
-      }
+      var _this5 = this;
 
       axios.post('/api/lists', {
         name: this.name
       }).then(function (response) {
-        _this2.name = '';
-        _this2.desk_lists = [];
+        _this5.name = '';
+        _this5.desk_lists = [];
 
-        _this2.getDeskLists();
+        _this5.getDeskLists();
       })["catch"](function (error) {
         console.log(error);
 
         if (error.response.data.errors.name) {
-          _this2.errors = [];
+          _this5.errors = [];
 
-          _this2.errors.push(error.response.data.errors.name[0]);
+          _this5.errors.push(error.response.data.errors.name[0]);
         }
 
-        _this2.err;
+        _this5.err;
       })["finally"](function () {
-        _this2.loading = false;
+        _this5.loading = false;
       });
     },
     //-----------------------------------------------
     SaveName: function SaveName() {
-      var _this3 = this;
+      var _this6 = this;
 
       axios.post('/api/desks/' + this.deskId, {
         _method: 'PUT',
         name: this.name
       }).then(function (response) {
-        _this3.name = response.data.data.name;
+        _this6.name = response.data.data.name;
       })["catch"](function (error) {
         console.log(error);
-        _this3.errored = true;
+        _this6.errored = true;
       })["finally"](function () {
-        return _this3.loading = false;
+        return _this6.loading = false;
       });
     }
   },
@@ -2441,18 +2484,49 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    var _this4 = this;
+    var _this7 = this;
 
     axios.get('/api/desks/' + this.deskId).then(function (response) {
-      _this4.name = response.data.data.name;
+      _this7.name = response.data.data.name;
     })["catch"](function (error) {
       console.log(error);
-      _this4.errored = true;
+      _this7.errored = true;
     })["finally"](function () {
-      return _this4.loading = false;
+      return _this7.loading = false;
     });
     this.getDeskLists();
   }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/desks/showCard.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/desks/showCard.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "showCard",
+  props: {
+    cardId: cardId
+  },
+  methods: {
+    getTasks: function getTasks(cardId) {},
+    createTask: function createTask(cardId) {},
+    updateTask: function updateTask(id) {},
+    deleteTask: function deleteTask(id) {}
+  },
+  cards: true
 });
 
 /***/ }),
@@ -2473,6 +2547,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_About__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/About */ "./resources/js/components/About.vue");
 /* harmony import */ var _components_desks_Desks__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/desks/Desks */ "./resources/js/components/desks/Desks.vue");
 /* harmony import */ var _components_desks_ShowDesk__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/desks/ShowDesk */ "./resources/js/components/desks/ShowDesk.vue");
+/* harmony import */ var _components_desks_showCard__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/desks/showCard */ "./resources/js/components/desks/showCard.vue");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
@@ -2481,6 +2556,7 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vuelidate__WEBPACK_IMPORTED_MODULE_1__["default"]); //Vue.component('app', require('./components/App').default);
 
 vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]);
+
 
 
 
@@ -2504,6 +2580,11 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]({
     path: '/show/:deskId',
     name: 'ShowDesk',
     component: _components_desks_ShowDesk__WEBPACK_IMPORTED_MODULE_7__["default"],
+    props: true
+  }, {
+    path: '/show/:cardId',
+    name: 'ShowCard',
+    component: _components_desks_showCard__WEBPACK_IMPORTED_MODULE_8__["default"],
     props: true
   }]
 });
@@ -20164,6 +20245,45 @@ component.options.__file = "resources/js/components/desks/ShowDesk.vue"
 
 /***/ }),
 
+/***/ "./resources/js/components/desks/showCard.vue":
+/*!****************************************************!*\
+  !*** ./resources/js/components/desks/showCard.vue ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _showCard_vue_vue_type_template_id_4583d72d_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./showCard.vue?vue&type=template&id=4583d72d&scoped=true& */ "./resources/js/components/desks/showCard.vue?vue&type=template&id=4583d72d&scoped=true&");
+/* harmony import */ var _showCard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./showCard.vue?vue&type=script&lang=js& */ "./resources/js/components/desks/showCard.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _showCard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _showCard_vue_vue_type_template_id_4583d72d_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _showCard_vue_vue_type_template_id_4583d72d_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "4583d72d",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/desks/showCard.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/About.vue?vue&type=script&lang=js&":
 /*!********************************************************************!*\
   !*** ./resources/js/components/About.vue?vue&type=script&lang=js& ***!
@@ -20241,6 +20361,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowDesk_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ShowDesk.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/desks/ShowDesk.vue?vue&type=script&lang=js&");
  /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowDesk_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/desks/showCard.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/components/desks/showCard.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_showCard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./showCard.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/desks/showCard.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_showCard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
@@ -20325,6 +20461,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowDesk_vue_vue_type_template_id_e63e7b54___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowDesk_vue_vue_type_template_id_e63e7b54___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ShowDesk.vue?vue&type=template&id=e63e7b54& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/desks/ShowDesk.vue?vue&type=template&id=e63e7b54&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/desks/showCard.vue?vue&type=template&id=4583d72d&scoped=true&":
+/*!***********************************************************************************************!*\
+  !*** ./resources/js/components/desks/showCard.vue?vue&type=template&id=4583d72d&scoped=true& ***!
+  \***********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_showCard_vue_vue_type_template_id_4583d72d_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_showCard_vue_vue_type_template_id_4583d72d_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_showCard_vue_vue_type_template_id_4583d72d_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./showCard.vue?vue&type=template&id=4583d72d&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/desks/showCard.vue?vue&type=template&id=4583d72d&scoped=true&");
 
 
 /***/ }),
@@ -20798,7 +20951,7 @@ var render = function () {
             { staticClass: "card mt-4 ", staticStyle: { width: "18rem" } },
             [
               _c("div", { staticClass: "card-body" }, [
-                (_vm.desk_list_input_id = desk_list.id)
+                _vm.desk_list_input_id == desk_list.id
                   ? _c(
                       "form",
                       {
@@ -20825,7 +20978,7 @@ var render = function () {
                           staticClass: "form-control",
                           attrs: {
                             type: "text",
-                            placeholder: "input name of cord",
+                            placeholder: "input name of List",
                           },
                           domProps: { value: desk_list.name },
                           on: {
@@ -20853,9 +21006,93 @@ var render = function () {
                         ),
                       ]
                     )
-                  : _vm._e(),
+                  : _c(
+                      "h4",
+                      {
+                        staticClass:
+                          "card-title d-flex justify-content-between align-items-center",
+                        staticStyle: { "font-size": "15px", cursor: "pointer" },
+                        on: {
+                          click: function ($event) {
+                            _vm.desk_list_input_id = desk_list.id
+                          },
+                        },
+                      },
+                      [
+                        _vm._v(_vm._s(desk_list.name)),
+                        _c("i", { staticClass: "fa-solid fa-pencil" }),
+                      ]
+                    ),
                 _vm._v(" "),
-                _vm._m(0, true),
+                _c(
+                  "div",
+                  { staticClass: "card mt-3 bg-light" },
+                  [
+                    _vm._l(desk_list.Cards, function (card) {
+                      return _c(
+                        "div",
+                        { staticClass: "card-body" },
+                        [
+                          _c(
+                            "router-link",
+                            {
+                              staticClass: "card-body",
+                              attrs: {
+                                to: {
+                                  name: "ShowCard",
+                                  params: { cardId: card.id },
+                                },
+                              },
+                            },
+                            [_c("h4", [_vm._v(_vm._s(card.name))])]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "h4",
+                            {
+                              staticClass:
+                                "card-title d-flex justify-content-between align-items-center",
+                            },
+                            [_vm._v(_vm._s(card.name))]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-danger mt-3",
+                              attrs: { type: "button" },
+                              on: {
+                                click: function ($event) {
+                                  return _vm.deleteCard(card.id)
+                                },
+                              },
+                            },
+                            [
+                              _vm._v(
+                                "\n                                    delete card\n                                "
+                              ),
+                            ]
+                          ),
+                        ],
+                        1
+                      )
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-danger mt-3",
+                        on: {
+                          click: function ($event) {
+                            return _vm.deleteDeskList(desk_list.id)
+                          },
+                        },
+                      },
+                      [_vm._v("Delete list")]
+                    ),
+                  ],
+                  2
+                ),
               ]),
             ]
           ),
@@ -20867,38 +21104,32 @@ var render = function () {
     ),
   ])
 }
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass:
-          "card mt-3 d-flex justify-content-between align-items-center",
-      },
-      [
-        _c("div", { staticClass: "card-body" }, [
-          _c("h4", {
-            staticClass:
-              "card-title d-flex justify-content-between align-items-center",
-          }),
-          _vm._v(" "),
-          _c(
-            "button",
-            { staticClass: "btn btn-danger mt-3", attrs: { type: "button" } },
-            [
-              _vm._v(
-                "\n                                    delete\n                                "
-              ),
-            ]
-          ),
-        ]),
-      ]
-    )
-  },
-]
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/desks/showCard.vue?vue&type=template&id=4583d72d&scoped=true&":
+/*!**************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/desks/showCard.vue?vue&type=template&id=4583d72d&scoped=true& ***!
+  \**************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div")
+}
+var staticRenderFns = []
 render._withStripped = true
 
 

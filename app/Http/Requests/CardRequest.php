@@ -13,7 +13,7 @@ class CardRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,8 @@ class CardRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name'=>'max:255',
+            'desk_list_id'=>'required'
         ];
     }
 }

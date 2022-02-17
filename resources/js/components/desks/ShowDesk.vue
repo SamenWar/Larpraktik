@@ -34,20 +34,25 @@
             <div class="col-lg-4" v-for="desk_list in desk_lists">
                 <div class="card mt-4 " style="width: 18rem;" >
                     <div class="card-body">
-                        <form @submit.prevent="updateDeskList(desk_list.id, desk_list.name)" v-if="desk_list_input_id=desk_list.id">
-                            <input type="text" v-model="desk_list.name" class="form-control" placeholder="input name of cord">
+                        <form v-if="desk_list_input_id==desk_list.id" @submit.prevent="updateDeskList(desk_list.id, desk_list.name)">
+                            <input type="text" v-model="desk_list.name" class="form-control" placeholder="input name of List">
                                 <button type="button" @click="desk_list_input_id=null" class="close mt-3">
                                     <span aria-hidden="true"></span>
                                 </button>
                         </form>
-                        <div class="card mt-3 d-flex justify-content-between align-items-center" style="">
-                            <div class="card-body">
-                                <h4 class="card-title d-flex justify-content-between align-items-center"></h4>
-                                <button type="button" class="btn btn-danger mt-3">
-                                    delete
+                        <h4 @click="desk_list_input_id = desk_list.id" v-else class="card-title d-flex justify-content-between align-items-center" style="font-size: 15px; cursor: pointer">{{desk_list.name}}<i class="fa-solid fa-pencil" ></i></h4>
+
+                        <div class="card mt-3 bg-light" style="">
+                            <div v-for="card in desk_list.Cards" class="card-body">
+                                <router-link class="card-body" :to="{name:'ShowCard', params:{cardId:card.id}}">
+                                    <h4>{{card.name}}</h4>
+                                </router-link>
+                                <h4 class="card-title d-flex justify-content-between align-items-center">{{card.name}}</h4>
+                                <button type="button" @click="deleteCard(card.id)" class="btn btn-danger mt-3">
+                                    delete card
                                 </button>
                             </div>
-
+                        <button class="btn btn-danger mt-3" @click="deleteDeskList(desk_list.id)">Delete list</button>
                         </div>
                     </div>
                 </div>
@@ -81,17 +86,65 @@ import { required, maxLength } from 'vuelidate/lib/validators'
             }
         },
         methods:{
+                //------------------
+                //card
+                //___________________
+            deleteCard(id){
+                if (confirm('Are you sure?')) {
+                    axios.post('/api/cards/'+ id, {
+                        _method: 'DELETE'
+                    }).then(response => {
+
+                    })
+                        .catch(error => {
+                            console.log(error)
+                            this.errored = true
+                        }).finally(()=> {
+                        this.loading = false})
+
+                }
+            },
+
                 //-----------------------------
                 //desk-list
                 //-----------------------------
-                deleteDeskList(){
+                deleteDeskList(id){
+                    if (confirm('Are you sure?')) {
+                        axios.post('/api/lists/'+ id, {
+                            _method: 'DELETE'
+                        }).then(response => {
+
+                        })
+                            .catch(error => {
+                                console.log(error)
+                                this.errored = true
+                            }).finally(()=> {
+                            this.loading = false})
+
+                    }
 
                     },
-                updateDeskList(){
+                updateDeskList(id, name){
+                    axios.post('/api/lists/'+id, {
+                        _method:'PUT',
+                        name
+
+                    }).then(response => {
+                        this.desk_list_input_id=null
+                   })
+                        .catch(error => {
+                            console.log(error)
+                            this.errored = true
+                        }).finally(()=> {
+                        this.loading = false})
 
 
 
-                    },
+                },
+
+
+
+
                 getDeskLists(){
                 axios.get('/api/lists', {
                      params:{
@@ -121,10 +174,8 @@ import { required, maxLength } from 'vuelidate/lib/validators'
 
 
             addDeskLists(){
-                this.$v.$touch()
-                if(this.$v.$anyError){
-                    return;
-                }
+
+
                 axios.post('/api/lists', {
                     name: this.name
                 }).then(response => {

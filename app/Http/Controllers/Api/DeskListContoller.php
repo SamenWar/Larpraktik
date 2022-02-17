@@ -55,7 +55,7 @@ class DeskListContoller extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return DeskListReasource
      */
     public function update(DeskListRequest $request, DeskList $desklist)
     {
