@@ -44,10 +44,10 @@
 
                         <div class="card mt-3 bg-light" style="">
                             <div v-for="card in desk_list.Cards" class="card-body">
-                                <router-link class="card-body" :to="{name:'ShowCard', params:{cardId:card.id}}">
-                                    <h4>{{card.name}}</h4>
+                                <router-link class="card-body" :to="{name:'showCard', params:{cardId:card.id}}">
+                                    <h4 class="card-title d-flex justify-content-between align-items-center">{{card.name}}</h4>
                                 </router-link>
-                                <h4 class="card-title d-flex justify-content-between align-items-center">{{card.name}}</h4>
+
                                 <button type="button" @click="deleteCard(card.id)" class="btn btn-danger mt-3">
                                     delete card
                                 </button>

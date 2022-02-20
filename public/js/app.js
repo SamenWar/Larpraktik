@@ -2515,11 +2515,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "showCard",
-  props: {
-    cardId: cardId
-  },
+  props: ['cardId'],
   methods: {
     getTasks: function getTasks(cardId) {},
     createTask: function createTask(cardId) {},
@@ -2583,7 +2591,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]({
     props: true
   }, {
     path: '/show/:cardId',
-    name: 'ShowCard',
+    name: 'showCard',
     component: _components_desks_showCard__WEBPACK_IMPORTED_MODULE_8__["default"],
     props: true
   }]
@@ -21039,21 +21047,21 @@ var render = function () {
                               staticClass: "card-body",
                               attrs: {
                                 to: {
-                                  name: "ShowCard",
+                                  name: "showCard",
                                   params: { cardId: card.id },
                                 },
                               },
                             },
-                            [_c("h4", [_vm._v(_vm._s(card.name))])]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "h4",
-                            {
-                              staticClass:
-                                "card-title d-flex justify-content-between align-items-center",
-                            },
-                            [_vm._v(_vm._s(card.name))]
+                            [
+                              _c(
+                                "h4",
+                                {
+                                  staticClass:
+                                    "card-title d-flex justify-content-between align-items-center",
+                                },
+                                [_vm._v(_vm._s(card.name))]
+                              ),
+                            ]
                           ),
                           _vm._v(" "),
                           _c(
@@ -21127,9 +21135,65 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _vm._m(0)
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group mb-3" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-outline-secondary dropdown-toggle",
+          attrs: {
+            type: "button",
+            "data-bs-toggle": "dropdown",
+            "aria-expanded": "false",
+          },
+        },
+        [_vm._v("Dropdown")]
+      ),
+      _vm._v(" "),
+      _c("ul", { staticClass: "dropdown-menu" }, [
+        _c("li", [
+          _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+            _vm._v("Action"),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("li", [
+          _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+            _vm._v("Another action"),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("li", [
+          _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+            _vm._v("Something else here"),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("li", [_c("hr", { staticClass: "dropdown-divider" })]),
+        _vm._v(" "),
+        _c("li", [
+          _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+            _vm._v("Separated link"),
+          ]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("input", {
+        staticClass: "form-control",
+        attrs: {
+          type: "text",
+          "aria-label": "Text input with dropdown button",
+        },
+      }),
+    ])
+  },
+]
 render._withStripped = true
 
 
