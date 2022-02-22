@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class TaskData extends Model
 {
     use HasFactory;
+    protected $fillable = ['name', 'Deadline', 'priority', 'description', 'executor'];
 }

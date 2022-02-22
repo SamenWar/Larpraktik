@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\TaskController;
+use App\Http\Controllers\Api\TaskData;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\DeskController;
@@ -24,7 +25,8 @@ Route::apiResources([
     'tasks'=>TaskController::class,
     'desks'=>DeskController::class,
     'lists'=>DeskListContoller::class,
-    'cards'=>App\Http\Controllers\Api\CardContoller::class
+    'cards'=>CardContoller::class,
+    'taskdata'=>TaskData::class
 
 
 ]);

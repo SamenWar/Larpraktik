@@ -16,11 +16,16 @@ class TaskController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection|\Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-      return  Task::all();
+//            return TaskReasource::collection(Task::all());
+        return  TaskReasource::collection(
+            Task::orderBy('created_at', 'desc')
+                ->where('card_id', $request->card_id)
+                ->get()
+        );
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\TaskDataResource;
 use Illuminate\Http\Request;
 
 class TaskData extends Controller
@@ -14,17 +15,17 @@ class TaskData extends Controller
      */
     public function index()
     {
-        //
+       //
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection|\Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        //        );
     }
 
     /**
